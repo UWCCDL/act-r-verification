@@ -1,0 +1,28 @@
+# mac
+*.DS_Store
+
+# cache
+*.pyc
+*__pycache__
+*.pytest_cache
+
+# vscode
+*.vscode
+
+# jupyter
+*.ipynb_checkpoints/
+
+# pycharm
+*.idea/
+
+# latex 
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# data 
+*data/
