@@ -26,3 +26,6 @@
 
 # data 
 *data/
+
+# ref ROI
+*ROIs/ref.nii

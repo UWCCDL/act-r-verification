@@ -1,5 +1,0 @@
-Voxel coordinates in FSL (2mm MNI space)
-Imaginal: [57, 33], 29, 58
-Visual: [66, 23], 33, 28
-Manual: [66, 24], 51, 63
-Retrieval: [66, 23], 75, 48
