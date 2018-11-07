@@ -18,9 +18,6 @@ def extract_pca_component(img, mask):
     pca = PCA(n_components=1)
     pca.fit(normalized)
     projected = pca.transform(data)
-    # check the variance explaineed
-    var_projected = np.sum(np.var(projected, axis=0))
-    var_original = np.sum(np.var(data, axis=0))
     return projected
 
 
@@ -32,7 +29,8 @@ def create_time_series():
         mask = image.load_img(os.path.join("ROIs", roi)) 
         data.append(extract_pca_component(img, mask))
 
-    df = pd.DataFrame(data, columns=rois)
+    rois = [i[:-7] for i in os.listdir("ROIs") if i.endswith(".nii.gz")]
+    df = pd.DataFrame(np.column_stack(data), columns=rois)
     df.to_csv("testing.csv", index=None)
 
 
