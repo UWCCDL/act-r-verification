@@ -1,0 +1,7 @@
+aRetrieval  -42,24,24  8  actr_dcm_results  4  4  0.99  0
+aProcedural  -14,-12,0  8  actr_dcm_results  4  4  0.99  0
+aGoal  -6,8,40  4  actr_dcm_results  4  4  0.99 0
+aVisual  -42,-60,-16  8  actr_dcm_results  4  4  0.99  0
+aImaginal  -24,-68,44  8  actr_dcm_results  4  4  0.99 0
+aManual -42,-24,54  8  actr_dcm_results  4  4  0.99  0
+
