@@ -38,14 +38,17 @@
 % ----------------------------------------------------------
 
 
-\title{ACT-R Verification with Dynamic Causal Modeling}
+\title{Selecting Between Competing Computational Models of the Stroop Task \\ On the Bases of Effective Connectivity}
  
-\author{{\large \bf Morton Ann Gernsbacher (MAG@Macc.Wisc.Edu)} \\
-  Department of Psychology, 1202 W. Johnson Street \\
-  Madison, WI 53706 USA
-  \AND {\large \bf Sharon J.~Derry (SDJ@Macc.Wisc.Edu)} \\
-  Department of Educational Psychology, 1025 W. Johnson Street \\
-  Madison, WI 53706 USA}
+\author{{\large \bf Micah Ketola (ketolm@uw.edu)} \\
+  Department of Psychology, Campus Box 351525, \\
+  Seattle, WA 98195 USA
+  \AND {\large \bf Linxing Preston Jiang (prestonj@cs.washington.edu)} \\
+  Paul G. Allen School of Computer Science and Engineering\\
+  Seattle, WA 98195 USA 
+  \AND {\large \bf Andrea Stocco (stocco@uw.edu)} \\
+  Department of Psychology and Institute for Learning and Brain Sciences (I-LABS), Campus Box 351525, \\
+  Seattle, WA 98195 USA}
 
 
 \begin{document}
@@ -55,22 +58,16 @@
 
 \begin{abstract}
 \textbf{TODO} \\
-The abstract should be one paragraph, indented 1/8~inch on both sides,
-in 9~point font with single spacing. The heading ``{\bf Abstract}''
-should be 10~point, bold, centered, with one line of space below
-it. This one-paragraph abstract section is required only for standard
-six page proceedings papers. Following the abstract should be a blank
-line, followed by the header ``{\bf Keywords:}'' and a list of
-descriptive keywords separated by semicolons, all in 9~point font, as
-shown below.
+Recent advances have made it possible to generate fMRI predictions for cognitive architectures, such as ACT-R, thus expanding on the possible data to be explained and making it possible to distinguish models between alternative models that make otherwise identical behavioral predictions. However, for tasks associated with relatively brief response times, fMRI predictions are often not sufficient to provide adequate identifiability. Here, we outlined a method based on effective connectivity, which significantly augments the amount of information that can be extracted from fMRi data to distinguish between model. We show the application of this method in the case of two competing ACT-R models of the Stroop task, which made identical behavioral and fMRI prediction. We show that patterns of connectivity favor on model over the other. Furthermore, we show that the same data suggests directions in which both models should be revised.
 
 \textbf{Keywords:} 
-ACT-R, Dynamic Causal Modeling
+ACT-R, Dynamic Causal Modeling, Cognitive Science
 \end{abstract}
 
 
 \section{Introduction}
-Adaptive Control of Thought—Rational (ACT-R) \cite{Anderson2004} is a cognitive architecture which defines the basic units of human cognition processes. In most studies \cite{Anderson2004, Anderson2008, Stocco2018, Borst2017}, the focus has been put on the following modules of the architecture: visual, imaginal, goal, retrieval, manual, and procedural. The visual module is the input (e.g., perceiving visual stimului), the manual module is the output (e.g., pressing a button for an answer), the imaginal module handles the processing of intermediate information (e.g. the middle steps to remember for solving $x$ from $\frac{2x - 5}{10} = 3$), the retrieval module contains declarative memory (e.g., common facts: the sky is blue), and the goal module controls the state of problem solving (e.g., different conditions in a task). ACT-R is a unified theory of neuroscientist-made assumptions of how these modules integrate and make up human cognition in various tasks. 
+
+Adaptive Control of Thought—Rational (ACT-R) \cite{Anderson2004} is a cognitive architecture which defines the basic units of human cognition processes. In most studies \cite{Anderson2004, Anderson2008, Stocco2018, Borst2017}, the focus has been put on the following modules of the architecture: visual, imaginal, goal, retrieval, manual, and procedural. The visual module is the input (e.g., perceiving visual stimuli), the manual module is the output (e.g., pressing a button for an answer), the imaginal module handles the processing of intermediate information (e.g. the middle steps to remember for solving $x$ from $\frac{2x - 5}{10} = 3$), the retrieval module contains declarative memory (e.g., common facts: the sky is blue), and the goal module controls the state of problem solving (e.g., different conditions in a task). ACT-R is a unified theory of neuroscientist-made assumptions of how these modules integrate and make up human cognition in various tasks. 
 
 Traditionally, hemodynamic response functions (HRFs) are convolved with the event matrix (i.e., information processing of each module) derived from ACT-R to simulate fMRI data for various tasks \cite{Anderson2004,Lindquist2009}. A common choice of HRF, the double gamma function, is define as 
 \[f(t, \alpha, \beta) = \frac{t^{\alpha - 1}e^{-\beta t}}{\Gamma(\alpha)}\]
@@ -78,6 +75,25 @@ where $t$ is time, $\alpha$ and $\beta$ define the scale and shape of the functi
 
 \subsection{Experimental Task}
 Real fMRI data were collected by Verstynen et al. \cite{Verstynen2014} and made publicly available on OpenNeuro at  \url{https://openneuro.org/datasets/ds000164/versions/00001}. The data was collected while the subjects performed the Stroop task \cite{Stroop1935} during which the subjects were asked to select the box whose color matched that of the text, however, the color of the text itself may (congruent trials) or may not (incongruent trials) match its semantic meaning. If, for example, the word "red" is shown on the screen painted in blue, then the subject is supposed to select the blue box instead of the red box.
+
+\section{ACT-R Models}
+This is where I'm going to put information about my models for now. 
+
+\documentclass{article}
+\usepackage{graphicx}
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=\linewidth]{meaning_color_model.eps}
+  \caption{This is my first model}
+\end{figure}%
+
+\documentclass{article}
+\usepackage{graphicx}
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=\linewidth]{overall_model.eps}
+  \caption{This is my second model}
+\end{figure}%
 
 
 \section{Data and Modeling}
