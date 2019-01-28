@@ -57,38 +57,87 @@
 
 
 \begin{abstract}
-\textbf{TODO} \\
-Recent advances have made it possible to generate fMRI predictions for cognitive architectures, such as ACT-R, thus expanding on the possible data to be explained and making it possible to distinguish models between alternative models that make otherwise identical behavioral predictions. However, for tasks associated with relatively brief response times, fMRI predictions are often not sufficient to provide adequate identifiability. Here, we outlined a method based on effective connectivity, which significantly augments the amount of information that can be extracted from fMRi data to distinguish between model. We show the application of this method in the case of two competing ACT-R models of the Stroop task, which made identical behavioral and fMRI prediction. We show that patterns of connectivity favor on model over the other. Furthermore, we show that the same data suggests directions in which both models should be revised.
+Recent advances have made it possible to generate fMRI predictions for cognitive architectures, such as ACT-R, thus expanding on the possible data to be explained and making it possible to distinguish models between alternative models that make otherwise identical behavioral predictions. However, for tasks associated with relatively brief response times, fMRI predictions are often not sufficient to provide adequate identifiability. In this paper, we outline a method based on {\it effective connectivity}, which significantly augments the amount of information that can be extracted from fMRI data to distinguish between model. We show the application of this method in the case of two competing ACT-R models of the Stroop task. Although the models make, predictably, identical behavioral and BOLD time-course predictions, patterns of functional connectivity favor on model over the other. Finally, we show that the same data suggests directions in which both models should be revised.
 
 \textbf{Keywords:} 
 ACT-R, Dynamic Causal Modeling, Cognitive Science
 \end{abstract}
 
-
 \section{Introduction}
 
-Adaptive Control of Thought—Rational (ACT-R) \cite{Anderson2004} is a cognitive architecture which defines the basic units of human cognition processes. In most studies \cite{Anderson2004, Anderson2008, Stocco2018, Borst2017}, the focus has been put on the following modules of the architecture: visual, imaginal, goal, retrieval, manual, and procedural. The visual module is the input (e.g., perceiving visual stimuli), the manual module is the output (e.g., pressing a button for an answer), the imaginal module handles the processing of intermediate information (e.g. the middle steps to remember for solving $x$ from $\frac{2x - 5}{10} = 3$), the retrieval module contains declarative memory (e.g., common facts: the sky is blue), and the goal module controls the state of problem solving (e.g., different conditions in a task). ACT-R is a unified theory of neuroscientist-made assumptions of how these modules integrate and make up human cognition in various tasks. 
+One of the traditional problems in the field of cognitive modeling is deciding which of two models is right. The most common procedure to compare two models is to use null- hypothesis testing procedures. In essence, conditions are identified in which the two models make qualitatively different predictions, and the hypothesized pattern is tested using classical techniques. While more sophisticated approaches have been proposed \cite{Pitt2006, Veksler2015}, this approach remains the {\it de facto} standard of the field.
 
-Traditionally, hemodynamic response functions (HRFs) are convolved with the event matrix (i.e., information processing of each module) derived from ACT-R to simulate fMRI data for various tasks \cite{Anderson2004,Lindquist2009}. A common choice of HRF, the double gamma function, is define as 
-\[f(t, \alpha, \beta) = \frac{t^{\alpha - 1}e^{-\beta t}}{\Gamma(\alpha)}\]
-where $t$ is time, $\alpha$ and $\beta$ define the scale and shape of the function, respectively, and $\Gamma(x) = (x - 1)!$ for $x \in \mathbf{R}$ \cite{Poldrack, Cignetti2016}. Then the simulated data is visually compared to the real fMRI data to check for similarities, or simple metrics such as mean square error are applied \cite{Anderson2004, Borst2017}. More rigorous analysis without the assumption of brain activations being HRF-shaped could be useful to verify ACT-R in a bottom-up approach. In this project, both brain connectivity analysis and mixture models are proposed to discover meaningful structures directly from the data with few assumptions. Specifically, covariance estimation and dynamic causal modeling were used to study brain region connectivity, and Gaussian Mixture Models were used to estimate the distributions of individual brain activation in each module.
+The search for conditions in which two models differ is sometimes streneous. The same behavior can sometimes be obtained through different possible internal processes and mdoel parameters. By shedding light on more direct correlates of cognitve processes, neuroimaging data provides a potential way to distinguish between otherwise behaviorally identical results \cite{Sohn2004}. For this reason, procedures have been devised to draw neuroimaging predictions from computational models, most commonly using fMRI (\cite{Anderson2008}).
+
+While the use of fMRI has greatly expanded upon the possible predictons that can distinguish between the two models, a number of limitations still exist. The major limitation is due to the limited temporal resolution of fMRI. 
+However, even methods that offer a more precise temporal resolution, such as EEG or MEG, suffer from drawbacks. For example, models often rely on specific, crucial assumptions about the order of mental steps of the causal relationship between different modules. 
+
+Recently, Rice and Stocco (2019) proposed using TMS as a different way to test model predictions. TMS provides a way to causally interfere with specific cortical computations, thus providing both causal interference and the necessary spatio-temporal resolution. It should be noted, however, that their paper did not use this technique to compare models. 
+
+In this paper, we describe and demonstrate an alternative and novel way to test models using neuroimaging data that addresses these concerns. This method is based on patterns of {\it effective connectivity} between brain regions. Effective connectivity is an umbrella term to characterize the functional exchange of information between two brain regions, based on the analysis of their respective time series. Because effective connectivity provides measures of directional communication between two regions, it can be used to examine the internal dynamics of a computational model.  Furthermore, because effective connectivity can be estimated from fMRI or EEG data, it expands the dimensions across which models can be compared without requiring collecting additional data.
+
+In the reminder of this paper, we will outline our method and apply it to a specific, and exquisitely cognitive, case, namely, determining which of two prominent computational explanations for the Stroop interference best explains the data.    
+
+\subsection{ACT-R}
+
+Although our method could be applied to any computational model, for convenience, it will be demonstrated with two models developed in the Adaptive Control of Thought--Rational (ACT-R) cognitive architecture \cite{Anderson2004}. This choice was made for three reasons.  First, ACT-R is the most successful and widespread architecture, having been used in hundreds of publications since its inception, and by far the most popular in the field of cognitive research \cite{Kotseruba2018}; Thus, it provides an excellent domain in which to demonstrate the procedure.
+
+Second, ACT-R already provides well-tested mappings between architectural components and brain regions and established procedures to predict fMRI activity from model simulations. Therefore, these assumptions can be adopted without the need to provide additional justifications.
+
+Finally, the assumptions of ACT-R provide reasonable mechanism to translate model activity into effective connectivity. As it will be shown, this is based on the functional requirements of the procedural module, which have been examined and discussed in the past.
+
+Fig. 1 provides an overview of the ACT-R architecture and introduces the graphical conventions that will be used in other figures of this paper to indicate different architectural components. Consistent with current views in neuroscience, ACT-R stores knowledge in two formats, declarative and procedural. Declarative knowledge is stored in vector-like structures called chunks, which are used to represent static information like semantic memories (“Paris is the capital of France”), perceptual inputs (“A black triangle is on the screen”), or motor commands (“Press the spacebar”). In Fig. 1, chunks are represented by the flowchart symbol of a document. Procedural knowledge, on the other hand, consists of production rules (or simply “productions”), state-action associations that encode basic operations and procedures as well as the specific knowledge to perform the various steps of a task. In Fig. 1, productions are represented with the flowchart symbol of a process (a square), with incoming arrows representing the state in which the action is applied (also known as ``condition'') and outgoing arrows representing their action. Thus, chunks represent information, and productions act upon them.
+
+The relationship between chunks and productions is mediated by a set of functional modules (solid rounded rectangles in Fig. 1). For instance, perceptual modules create new chunks to represent the contents of the outside world, and a memory module maintains chunks in long-term memory. Chunks are made available to production rules via a set of module-specific buffers, (dashed rounded rectangles in Fig. 1). Only when chunks are placed into buffers, can they be inspected, modified, and copied by production rules. 
+
+As noted above, much work has been dedicated to map ACT-R modules to corresponding neural circuits (Anderson, 2007; Anderson, Albert, & Fincham, 2005; Anderson et al., 2008; Borst et al., 2010; Fincham & Anderson, 2006; Fincham, Carter, Van Veen, Stenger, & Anderson, 2002; Stocco & Anderson, 2008). This work has yielded a number of reliable functional mappings, including the association between anterior cingulate cortex and the goal buffer in the goal module (Fincham & Anderson, 2006; Sohn, Albert, Jung, Carter, & Anderson, 2007), between the lateral prefrontal cortex and the retrieval buffer of the long-term memory module (Anderson, 2005; Danker, Gunn, & Anderson, 2008; Fincham & Anderson, 2006), between posterior parietal cortex and the imaginal buffer of working memory (Anderson, 2005; Anderson, Albert, et al., 2005; Borst et al., 2010; Sohn, Ursu, Anderson, Stenger, & Carter, 2000), between the fusiform gyrus and the visual buffer in the visual module (Anderson, 2005; 2007), and between the primary motor cortex and the manual buffer in the motor module (Anderson, 2005; Anderson et al., 2004).
+
+For the purpose of this paper, the most relevant mapping is the one between the procedural module and the basal ganglia (Anderson, 2005; Anderson et al., 2008; Stocco & Anderson, 2008). In addition to the fact that the activity trace of the procedural module predicts the BOLD response in the basal ganglia (Anderson, 2005; Anderson et al., 2008; Stocco & Anderson, 2008), this identification relies on a number of other arguments
+
+\subsection{Dynamic Causal Modeling}
+
+To estimate effective connectity, we adopted a framework known as Dynamic Causal Modeling (DCM) \cite{Friston2003, Stocco2018}. In essence, DCM is procedure to model the time-course of in brain activity in a set of brain regions through a dynamical system of other brain regions and event vectors. Specifically, the time course of activity of a region $i$ is expressed as a bilinear state equation:
+
+\[\dot{\vct{y}} = \mat{A}\vct{y} + \sum_{i}x_i\mat{B}(i)\vct{y} + \mat{C}\vct{x}\]
+
+where $\mat{A}$ defines intrinsic connectivity between different regions (fixed connectivity), $\mat{C}$ defines effects by task inputs, and $\mat{B}$ defines the modular effects that task conditions have on the connectivity between regions (modulation of connectivity). The overall ``effect'' of one module to another was then approximated by the element-wise product of $\mat{A}$ and $\mat{B}$, namely
+\[\text{effective connectivity} = \mat{A} \odot \mat{B}\]
+
+\subsection{Deriving ACT-R Predictions for Effective Connectivity }
+
+Since each trial the Stroop task is generally performed within one second, it is expected that the three information processing modules: imaginal, goal, and retrieval should have strong correlations since their activation could only be captured in one image scan given our sampling rate $TR = 1.5$ seconds. Furthermore, if the imaginal module is for intermediate information processing as ACT-R suggests, an increasing connectivity effect from imaginal module to goal module ("problem state") is expected in order to process the unmatching color and text semantics in incongruent trials.
+
+\section{An Application of the Method: ACT-R Models of the Stroop Task}
+
+To demonstrate this method, two models of the Stroop task were implemented. They were derived from previously proposed alternative models of the Stroop task, authored by Marsha Lovett \cite{Lovett2005} and by Erik Altmann \cite{VanMaanen2009}. Since both models were published before ACT-R underwent significant revisions, the two models were re-implemented in the most recent version of ACT-R (version 7.6). This reimplementation processes also ensured that the two models interacted with the task using the same sensorimotor mechanisms, i.e. visual objects and responses were given in the same way. From now on, we will refer to these two models as the Lovett-like model and the Altmann-like model. 
+
+Despite the re-implementation, the two models maintained the underlying assumptions that underlied their original proposal. Specifically, the two models provide different explanations about the nature of Stroop interference. In the Lovett model, Stroop interference is driven by the tendency of the model to automatically process the word dimension of the stimulus first. In processing this dimension, \textit{word-association chunks}, linking words to their conceptual representation, are added to the imaginal buffer. From there, a response matching the representation is retrieved and the model then either responds using this representation, or checks if the representation matches the visual color seen. If there is not a match, then the color dimension of the stimulus is processed and \textit{color-association chunks} are added to the imaginal buffer, linking colors to their conceptual representations. 
+
+%Traditionally, hemodynamic response functions (HRFs) are convolved with the event matrix (i.e., information processing of each module) derived from ACT-R to simulate fMRI data for various tasks \cite{Anderson2004,Lindquist2009}. A common choice of HRF, the double gamma function, is define as 
+%\[f(t, \alpha, \beta) = \frac{t^{\alpha - 1}e^{-\beta t}}{\Gamma(\alpha)}\]
+%where $t$ is time, $\alpha$ and $\beta$ define the scale and shape of the function, respectively, and $\Gamma(x) = (x - 1)!$ for $x \in \mathbf{R}$ \cite{Poldrack, Cignetti2016}. Then the simulated data is visually compared to the real fMRI data to check for similarities, or simple metrics such as mean square error are applied \cite{Anderson2004, Borst2017}. More rigorous analysis without the assumption of brain activations being HRF-shaped could be useful to verify ACT-R in a bottom-up approach. In this project, both brain connectivity analysis and mixture models are proposed to discover meaningful structures directly from the data with few assumptions. Specifically, covariance estimation and dynamic causal modeling were used to study brain region connectivity, and Gaussian Mixture Models were used to estimate the distributions of individual brain activation in each module.
+
+\section{Materials and Methods}
+
+\subsection{Experimental Dataset}
+
+In this analysis, we used fMRI publicly available from on an open repository\footnote{The data is available on OpenNeuro at the following URL:  https://openneuro.org/datasets/ds000164/versions/00001}. The original data was collected at Carnegie Mellon University by Timothy Verstynen, and published in Verstynen et al. \cite{Verstynen2014}.
+
+\subsection{Participants}
 
 \subsection{Experimental Task}
-Real fMRI data were collected by Verstynen et al. \cite{Verstynen2014} and made publicly available on OpenNeuro at  \url{https://openneuro.org/datasets/ds000164/versions/00001}. The data was collected while the subjects performed the Stroop task \cite{Stroop1935} during which the subjects were asked to select the box whose color matched that of the text, however, the color of the text itself may (congruent trials) or may not (incongruent trials) match its semantic meaning. If, for example, the word "red" is shown on the screen painted in blue, then the subject is supposed to select the blue box instead of the red box.
 
-\section{ACT-R Models}
-This is where I'm going to put information about my models for now. 
+The data was collected while the subjects performed the Stroop task \cite{Stroop1935}, during which the subjects were asked to select the box whose color matched that of the text, however, the color of the text itself may (congruent trials) or may not (incongruent trials) match its semantic meaning. If, for example, the word "red" is shown on the screen painted in blue, then the subject is supposed to select the blue box instead of the red box.
 
-\documentclass{article}
-\usepackage{graphicx}
+
+
+
 \begin{figure}[ht]
 \centering
   \includegraphics[width=\linewidth]{meaning_color_model.eps}
   \caption{This is my first model}
 \end{figure}%
 
-\documentclass{article}
-\usepackage{graphicx}
 \begin{figure}[ht]
 \centering
   \includegraphics[width=\linewidth]{overall_model.eps}
@@ -100,13 +149,7 @@ This is where I'm going to put information about my models for now.
 
 The Talairach coordinates used for each module in the brain followed the convention used by \cite{Anderson2008, Borst2017}. The algorithms described in \cite{Lacadie2008} were used to convert Talairach coordinates to Montreal Neurological Imaging Institute (MNI) coordinates (see Appendix D). The region of interest (ROI) mask files were created through FSL \cite{Woolrich2009} of size 16 mm (125 voxels in total) then used to extract fMRI data from each ROI. The real fMRI data were head-motion corrected and smoothed by a 8-mm Gaussian kernel using SPM \cite{Penny2006}. Principle component analysis was then applied on the extracted fMRI data in each ROI. The largest principle component was used to project the original data to the new space with more than 75\% of the variance explained in each module.
 
-\subsection{Brain Connectivity Analysis}
-The second type of analysis we conducted was connectivity analysis. Two types of connectivity analysis were done: (1) functional connectivity \cite{Rogers2007} which performed a covariance estimation of each brain regions with shrinkage \cite{Ledoit2004}, averaged across subjects; (2) effective connectivity through dynamic causal modeling (DCM) \cite{Friston2003, Stocco2018} which modeled the difference in brain activations through a dynamical system of other brain regions and event vectors. Specifically, DCM is expressed as a bilinear state equation
-\[\dot{\vct{y}} = \mat{A}\vct{y} + \sum_{i}x_i\mat{B}(i)\vct{y} + \mat{C}\vct{x}\]
-where $\mat{A}$ defines intrinsic connectivity between different regions (fixed connectivity), $\mat{C}$ defines effects by task inputs, and $\mat{B}$ defines the modular effects that task conditions have on the connectivity between regions (modulation of connectivity). The overall ``effect'' of one module
-to another was then approximated by the element-wise product of $\mat{A}$ and $\mat{B}$, namely
-\[\text{effective connectivity} = \mat{A} \odot \mat{B}\]
-Since each trial the Stroop task is generally performed within one second, it is expected that the three information processing modules: imaginal, goal, and retrieval should have strong correlations since their activation could only be captured in one image scan given our sampling rate $TR = 1.5$ seconds. Furthermore, if the imaginal module is for intermediate information processing as ACT-R suggests, an increasing connectivity effect from imaginal module to goal module ("problem state") is expected in order to process the unmatching color and text semantics in incongruent trials.
+
 
 \section{Result}
 
@@ -235,21 +278,9 @@ by 1/8~inch. Below are example references for a conference paper, book
 chapter, journal article, dissertation, book, technical report, and
 edited volume, respectively.
 
-\nocite{ChalnickBillman1988a}
-\nocite{Feigenbaum1963a}
-\nocite{Hill1983a}
-\nocite{OhlssonLangley1985a}
-% \nocite{Lewis1978a}
-\nocite{Matlock2001}
-\nocite{NewellSimon1972a}
-\nocite{ShragerLangley1990a}
-
-
 \bibliographystyle{apacite}
-
 \setlength{\bibleftmargin}{.125in}
 \setlength{\bibindent}{-\bibleftmargin}
-
 \bibliography{ref}
 
 
