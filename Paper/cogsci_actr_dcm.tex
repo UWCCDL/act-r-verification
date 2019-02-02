@@ -41,7 +41,7 @@
 \title{Comparing Alternative Computational Models of the Stroop Task \\Using of Effective Connectivity Analysis of fMRI Data}
  
 \author{{\large \bf Micah Ketola (ketolm@uw.edu)} \\
-  Department of Psychology, Campus Box 351525, \\
+  Department of Psychology, \\
   University of Washington, Seattle, WA 98195 USA
   \AND {\large \bf Linxing Preston Jiang (prestonj@cs.washington.edu)} \\
   Paul G. Allen School of Computer Science and Engineering\\
@@ -57,7 +57,7 @@
 
 
 \begin{abstract}
-Methodological advances have made it possible to generate fMRI predictions for cognitive architectures, such as ACT-R, thus expanding the range of model predictions and making it possible to distinguish models between alternative models that produce otherwise identical behavioral patterns. However, for tasks associated with relatively brief response times, fMRI predictions are often not sufficient to compare alternative models In this paper, we outline a method based on {\it effective connectivity}, which significantly augments the amount of information that can be extracted from fMRI data to distinguish between model. We show the application of this method in the case of two competing ACT-R models of the Stroop task. Although the models make, predictably, identical behavioral and BOLD time-course predictions, patterns of functional connectivity favor on model over the other. Finally, we show that the same data suggests directions in which both models should be revised.
+Methodological advances have made it possible to generate fMRI predictions for cognitive architectures, such as ACT-R, thus expanding the range of model predictions and making it possible to distinguish between alternative models that produce otherwise identical behavioral patterns. However, for tasks associated with relatively brief response times, fMRI predictions are often not sufficient to compare alternative models. In this paper, we outline a method based on {\it effective connectivity}, which significantly augments the amount of information that can be extracted from fMRI data to distinguish between models. We show the application of this method in the case of two competing ACT-R models of the Stroop task. Although the models make, predictably, identical behavioral and BOLD time-course predictions, patterns of functional connectivity favor one model over the other. Finally, we show that the same data suggests directions in which both models should be revised.
 
 \textbf{Keywords:} 
 ACT-R, Dynamic Causal Modeling, Cognitive Science
@@ -67,21 +67,21 @@ ACT-R, Dynamic Causal Modeling, Cognitive Science
 
 One of the traditional problems in the field of cognitive modeling is deciding which of two models is right \cite{Pitt2006}. Traditionally, the most common approach has been to compare models using null-hypothesis testing procedures. In essence, conditions are identified in which the two models make qualitatively different predictions, and the hypothesized pattern is tested using classical techniques. While more sophisticated approaches have been proposed \cite{Pitt2006, Veksler2015}, this approach remains the {\it de facto} standard of the field.
 
-The search for conditions in which two models differ is sometimes streneous. The same behavior can sometimes be obtained through different possible internal processes and mdoel parameters. By shedding light on more direct correlates of cognitive processes, neuroimaging data provides a potential way to distinguish between otherwise behaviorally identical results \cite{Sohn2004}. For this reason, procedures have been devised to derive neuroimaging predictions from computational models, most commonly in the domain of fMRI (\cite{Anderson2008}).
+The search for conditions in which two models differ is sometimes strenuous. The same behavior can occasionally be obtained through different possible internal processes and model parameters. By shedding light on more direct correlates of cognitive processes, neuroimaging data provides a potential way to distinguish between otherwise behaviorally identical results \cite{Sohn2004}. For this reason, procedures have been devised to derive neuroimaging predictions from computational models, most commonly in the domain of fMRI (\cite{Anderson2008}).
 
-While the use of fMRI has greatly expanded upon the possible predictons that can distinguish between the two models, a number of limitations still exist. The major limitation is the poor temporal resolution of fMRI.  However, even methods that offer a more precise temporal resolution, such as EEG or MEG, suffer from drawbacks. For example, models often rely on specific, crucial assumptions about the order of mental steps of the causal relationship between different modules. 
+While the use of fMRI has greatly expanded upon the possible predictions that can distinguish between the two models, a number of limitations still exist. The main limitation arises from poor temporal resolution of fMRI.  However, even methods that offer a more precise temporal resolution, such as EEG or MEG, suffer from other drawbacks. For example, models often rely on specific, crucial assumptions about the order of mental steps to draw causal relationships between different modules.
 
-Recently, \citeA{rice2019role} proposed using Transcranial Magnetic StimuTMS as a different way to test model predictions. TMS provides a way to causally interfere with specific cortical computations, thus providing both causal interference and the necessary spatio-temporal resolution. It should be noted, however, that their paper did not use this technique to compare models. 
+Recently, \citeA{rice2019role} proposed using Transcranial Magnetic Stimulation (TMS) as a different way to test model predictions. TMS provides a way to causally interfere with specific cortical computations, thus providing both causal interference with the necessary spatio-temporal resolution. It should be noted, however, that their paper did not use this technique to compare models. 
 
 In this paper, we describe and demonstrate an alternative and novel way to test models using neuroimaging data that addresses these concerns. This method is based on patterns of {\it effective connectivity} between brain regions. Effective connectivity is an umbrella term to characterize the functional exchange of information between two brain regions, based on the analysis of their respective time series. Because effective connectivity provides measures of directional communication between two regions, it can be used to examine the internal dynamics of a computational model.  Furthermore, because effective connectivity can be estimated from fMRI or EEG data, it expands the dimensions across which models can be compared without requiring collecting additional data.
 
-In the reminder of this paper, we will outline our method and apply it to a specific, and exquisitely cognitive, case, namely, determining which of two prominent computational explanations for the Stroop interference best explains the data.    
+In the remainder of this paper, we will outline our method and apply it to a specific, and exquisitely cognitive case, namely, determining which of two prominent computational explanations for the Stroop interference best explains the data.    
 
 \subsection{ACT-R}
 
-Although our method could be applied to any computational model, for convenience, it will be demonstrated with two models developed in the Adaptive Control of Thought--Rational (ACT-R) cognitive architecture \cite{Anderson2004}. This choice was made for three reasons.  First, ACT-R is the most successful and widespread architecture, having been used in hundreds of publications since its inception, and by far the most popular in the field of cognitive research \cite{Kotseruba2018}; Thus, it provides an excellent domain in which to demonstrate the procedure. Second, ACT-R already provides well-tested mappings between architectural components and brain regions and established procedures to predict fMRI activity from model simulations. Therefore, these assumptions can be adopted without the need to provide additional justifications. Finally, the assumptions of ACT-R provide reasonable mechanism to translate model activity into effective connectivity. As it will be shown, this is based on the functional requirements of the procedural module, which have been examined and discussed in the past.
+Although our method could be applied to any computational model, for convenience, it will be demonstrated with two models developed in the Adaptive Control of Thought--Rational (ACT-R) cognitive architecture \cite{Anderson2004}. This choice was made for three reasons.  First, ACT-R is the most successful and widespread architecture, having been used in hundreds of publications since its inception, and by far the most popular in the field of cognitive research \cite{Kotseruba2018}; Thus, it provides an excellent domain in which to demonstrate the procedure. Second, ACT-R already provides well-tested mappings between architectural components and brain regions with established procedures to predict fMRI activity from model simulations. Therefore, these assumptions can be adopted without the need to provide additional justifications. Finally, the assumptions of ACT-R provide a reasonable mechanism to translate model activity into effective connectivity. As it will be shown, this is based on the functional requirements of the procedural module, which have been examined and discussed in the past.
 
-ACT-R represents knowledge in two formats, declarative and procedural. Declarative knowledge is made of record-like structures, called {\it chunks}, which semantic memories (“Paris is the capital of France”), perceptual inputs (“A black triangle is on the screen”), and motor commands (“Press the spacebar”). Procedural knowledge consists of production rules (or simply ``productions''), state-action pairs that encode the specific policy to perform a task. In summary, chunks represent information, and productions act upon them.
+ACT-R represents knowledge in two formats, declarative and procedural. Declarative knowledge is made of record-like structures, called {\it chunks}, which capture semantic memories (“Paris is the capital of France”), perceptual inputs (“A black triangle is on the screen”), and motor commands (“Press the spacebar”). Procedural knowledge consists of production rules (or simply ``productions''), state-action pairs that encode the specific policy to perform a task. In summary, chunks represent information, and productions act upon them.
 
 Chunks are processed by functionally specialized modules. For instance, perceptual modules create new chunks to represent the contents of the outside world, and a memory module maintains chunks in long-term memory. Each module contains one or more buffers, limited-capacity stores that contain at most one chunk. Buffers are the only mechanisms through which chunks and productions interact: Chunks can be inspected, copied, and modified by productions when exposed into buffers. 
 
@@ -100,7 +100,7 @@ To estimate effective connectivity, we adopted a framework known as Dynamic Caus
 
 where $\mat{A}$ defines intrinsic connectivity between different regions (fixed connectivity), $\mat{C}$ defines effects by task inputs, and $\mat{B}$ defines the modular effects that task conditions have on the connectivity between regions (modulation of connectivity). %The overall ``effect'' of one task condition to another was then approximated by the element-wise product of $\mat{A}$ and $\mat{B}$, namely
 
-Effective connectivity can be thought of as a way to measure to degree of directional information transfer between ROIs.
+Effective connectivity can be thought of as a way to measure to degree of directional information transfer between Regions of Interest (ROIs).
 
 %\[\text{effective connectivity} = \mat{A} \odot \mat{B}\]
 
@@ -110,27 +110,26 @@ Because effective connectivity can be interpreted as information transfer, a dir
 
 The idea that variables in production rules can be used as proxy of effective connectivity is not entirely new. It was initially suggested in Anderson et al., 2008, in which the authors speculated that common functional connectivity patterns in the brain reflect the ubiquity of common operations that link different buffers---such as the production described.
 
-The idea was seems to run against the established identification between the procedural module and the basal ganglia (Anderson,2005). However, it has been noted before that the function of the basal ganglia is to direct inputs to cortical regions, a role that is both compatible with the procedural module and with the proposed interpretation of effective connectivity.
+The idea ran against established identification between the procedural module and the basal ganglia (Anderson,2005). However, it has been noted before that the function of the basal ganglia is to direct inputs to cortical regions, a role that is both compatible with the procedural module and with the proposed interpretation of effective connectivity.
 
 To operationalize this definition, we followed a simple procedure. First, an $N \times N$ squared matrix ${\mat{E}}$, with $N$ being the number of buffers examined, is generated and initialized to zeros. Then, the target model is run and its trace is segmented into epochs of interest  (e.g., all the trials of the same conditions). The structure of each production rule firing within that epoch is then examined. For each variable in the production rule, the {\it source} buffer $S$ at which the variable is introduced (or, technically, bound to a value) in the left-hand side and the {\it target} buffer $T$ in which the bound value is placed are recorded. The value of the matrix cell $\mat{E}_{S,T}$ is then incremented by one. If a variable appears in multiple source buffers $S_1, S_2 \dots S_L$ or target buffers $T_1, T_2 \dots T_L$, then all the cells $\mat{E}_{i \in K, j \in  L}$ are updated. When all the productions have been examined, $\mat{E}$ is taken to represent the predicted effective connectivity for that particular condition. 
 
 %Since each trial the Stroop task is generally performed within one second, it is expected that the three information processing modules: imaginal, goal, and retrieval should have strong correlations since their activation could only be captured in one image scan given our sampling rate $TR = 1.5$ seconds. Furthermore, if the imaginal module is for intermediate information processing as ACT-R suggests, an increasing connectivity effect from imaginal module to goal module (``problem state'') is expected in order to process the unmatching color and text semantics in incongruent trials.
 
-\section{An Application of the Method: ACT-R Models of the Stroop Task}
+\section{An Application of the Method: \\ ACT-R Models of the Stroop Task}
 
 To demonstrate this method, two models of the Stroop task were implemented. They were derived from previously proposed alternative models of the Stroop task, authored by Marsha Lovett \cite{Lovett2005} and by Erik Altmann \cite{VanMaanen2009}. Since both models were published before ACT-R was modified to account for neuroimaging data, they were re-implemented in the most recent version of ACT-R (version 7.6). This reimplementation processes also ensured that the two models interacted with the task using the same sensorimotor mechanisms, i.e. visual objects and responses were given in the same way. From now on, we will refer to these two models as the Altmann-like model and the Lovett-like model. 
 
-The re-implemented models maintained the underlying assumptions of their original versions. Specifically, the two models provide different explanations about the nature of Stroop interference. In the Altmann model (Figure 4), Stroop interference is driven by interference at the lemma layer. When a word is processed, it has direct access to its' lemma, or conceptual representation. Access to the lemma of a color is indirect, requiring an extra retrieval not seen with words. The model assumes that the word dimension of the Stroop stimulus is automatically processed first, therefore activating the lemma attached to the word dimension of the stimulus. As it tries to process the color dimension of the stimulus, the word-lemma is active and can either facilitate or inhibit retrieval of the correct color-lemma. In cases of facilitation, activation from the word-lemma spreads to the coinciding color-lemma, increasing the likelihood of correct retrieval on congruent trials. Oppositely, on incongruent trials, this activation spreads to the incorrect color-lemma, creating increased competition between color-lemmas and introducing ambiguity. For neutral trials, the word-lemma has no corresponding color-lemma, resulting in neither facilitation nor inhibition. The color-lemma is compared to visual cues and re-selected if inconsistent or otherwise used in further processing. A manual response is then retrieved using the color-lemma, and used to press a key on the keyboard. 
+The re-implemented models maintained the underlying assumptions of their original versions. Specifically, the two models provide different explanations about the nature of Stroop interference. In the Altmann model (Figure 3A), Stroop interference is driven by interference at the lemma layer. When a word is processed, it has direct access to its' lemma, or conceptual representation. Access to the lemma of a color is indirect, requiring an extra retrieval not seen with words. The model assumes that the word dimension of the Stroop stimulus is automatically processed first, therefore activating the lemma attached to the word dimension of the stimulus. As it tries to process the color dimension of the stimulus, the word-lemma is active and can either facilitate or inhibit retrieval of the correct color-lemma. In cases of facilitation, activation from the word-lemma spreads to the coinciding color-lemma, increasing the likelihood of correct retrieval on congruent trials. Oppositely, on incongruent trials, this activation spreads to the incorrect color-lemma, creating increased competition between color-lemmas and introducing ambiguity. For neutral trials, the word-lemma has no corresponding color-lemma, resulting in neither facilitation nor inhibition. The color-lemma is compared to visual cues and re-selected if inconsistent or otherwise used in further processing. A manual response is then retrieved using the color-lemma, and used to press a key on the keyboard. 
 
-In the Lovett model (Figure 3), Stroop interference is driven by the competition between alternative \textit{word-association chunks}, linking a word to its' conceptual representation, and \textit{color-association chunks}, linking a color to its' conceptual representation. The idea is similar to lemmas from the Altmann model, but in this case both types of dimension-associated chunks need to be retrieved. The Lovett model accounts for individual differences by supporting various strategies to complete the task. In contrast to the Altmann model, this model allows for processing of either stimulus dimension first, but is highly biased towards the word dimension. From either path, chunks associated with the processed dimension are retrieved. Processing can maintain with the retrieval of an answer directly, or the task is checked. Answering directly allows for incorrect answers on incongruent trials and fast responses on congruent trials. When the task is checked, the model compares the dimension of the processed chunk to the goal, which for our purpose is to always respond according to the color of the stimulus. If there is a mismatch, processing continues with the alternative stimulus dimension. Now when retrieving the alternative dimension-associated chunk, the previously retrieved chunk has the same effect as in the Altmann model, facilitating retrieval on congruent trials, having no effect on neutral trials, and inhibiting retrieval on incongruent trials. Notably, this does not necessarily happen on every trial, as there are alternate pathways and strategies, and the model will not retrieve the wrong answer at this point. The base-level activations are set in such a way that incongruent chunks slow retrieval of the correct chunk, and congruent chunks facilitate retrieval of the correct chunk. Once the correct dimension-associated chunk is retrieved, a manual answer is retrieved using the matching chunk, and used to press a key on the keyboard. 
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=\linewidth]{both_models.eps}
+  \caption{Flow-chart representation of the strategies used by the Altmann model (``A'', left) and the Lovett model (``B'', right) when processing Stroop trials.}
+\end{figure}%
 
-\begin{figure*}[ht]
- \centering
- \includegraphics[width=4in]{both_models.eps}
-  %\includegraphics[width=\textwidth]{both_models.eps}
-  \caption{Both}
-\end{figure*}%
 
+In the Lovett model (Figure 3B), Stroop interference is driven by the competition between alternative \textit{word-association chunks}, linking a word to its' conceptual representation, and \textit{color-association chunks}, linking a color to its' conceptual representation. The idea is similar to lemmas from the Altmann model, but in this case both types of dimension-associated chunks need to be retrieved. The Lovett model accounts for individual differences by supporting various strategies to complete the task. In contrast to the Altmann model, this model allows for processing of either stimulus dimension first, but is highly biased towards the word dimension. From either path, chunks associated with the processed dimension are retrieved. Processing can maintain with the retrieval of an answer directly, or the task is checked. Answering directly allows for incorrect answers on incongruent trials and fast responses on congruent trials. When the task is checked, the model compares the dimension of the processed chunk to the goal, which for our purpose is to always respond according to the color of the stimulus. If there is a mismatch, processing continues with the alternative stimulus dimension. Now when retrieving the alternative dimension-associated chunk, the previously retrieved chunk has the same effect as in the Altmann model, facilitating retrieval on congruent trials, having no effect on neutral trials, and inhibiting retrieval on incongruent trials. Notably, this does not necessarily happen on every trial, as there are alternate pathways and strategies, and the model will not retrieve the wrong answer at this point. The base-level activations are set in such a way that incongruent chunks slow retrieval of the correct chunk, and congruent chunks facilitate retrieval of the correct chunk. Once the correct dimension-associated chunk is retrieved, a manual answer is retrieved using the matching chunk, and used to press a key on the keyboard. 
 
 The two models offer an ideal comparison for two reasons. First, they deal with an experimental paradigm that is representative of research in cognitive neuroscience. Second, they embody different and opposing views about the nature of Stroop interference. Most importantly, these two models exemplify the limits of ACT-R's predictive capacity in neuroimaging. The two models, in fact, make use of the same five buffers (visual, motor, goal, imaginal, retrieval) and produce indistinguishable BOLD responses. The latter is a consequence of the difference between the resolution of the BOLD responses recorded in fMRI, which is much more sluggish and spans multiple seconds, and the time course of a Stroop trial, which is typically on the order of a few hundred milliseconds. When considering that time needed for perceptual and visual processes (identical in the two models), the difference between the two models is concentrated in a 300 ms window in which different interactions between imaginal, goal, and retrieval buffers are posited.
 
@@ -161,35 +160,23 @@ For the purpose of our analysis, the original raw data was re-processed using a 
 
 \subsection{Regions of Interest}
 
-DCM analysis is performed on fMRI time-series extracted from specific Regions of Interest (ROIs). In our case, the ROIs correspond to the specific brain regions that have been previously identified as corresponding to ACT-R buffers. Module-specific BOLD time series were extracted for each  The Talairach coordinates used for each module in the brain followed the convention used by \cite{Anderson2008, Borst2017}. The algorithms described in \cite{Lacadie2008} were used to convert Talairach coordinates to Montreal Neurological Imaging Institute (MNI) coordinates. The region of interest (ROI) mask files were created through FSL \cite{Woolrich2009} of size 16 mm (125 voxels in total) then used to extract fMRI time series from each voxel in each ROI. Principal Component Analysis was then applied on all the extracted time series to identify the time series that best characterized each ROI. The largest principle component was used to project the original data to the new space with more than 75\% of the variance explained in each module. 
+DCM analysis is performed on fMRI time-series extracted from specific ROIs. In our case, the ROIs correspond to the specific brain regions that have been previously identified as corresponding to ACT-R buffers. Module-specific BOLD time series were extracted for each  The Talairach coordinates used for each module in the brain followed the convention used by \cite{Anderson2008, Borst2017}. The algorithms described in \cite{Lacadie2008} were used to convert Talairach coordinates to Montreal Neurological Imaging Institute (MNI) coordinates. The ROI mask files were created through FSL \cite{Woolrich2009} of size 16 mm (125 voxels in total) then used to extract fMRI time series from each voxel in each ROI. Principal Component Analysis was then applied on all the extracted time series to identify the time series that best characterized each ROI. The largest principle component was used to project the original data to the new space with more than 75\% of the variance explained in each module. 
 
 \subsection{Dynamic Causal Modeling Analysis}
 
 Because DCM is a model-based technique, estimates of connectivity can only derived from parameters corresponding to the specified connectivity between ROIs.  To gather complete estimates of connectivity, an unconstrained, fully connected model was generated, in which any ROI was bidirectionally connected to all the others. Furthermore, to identify different patterns of connectivity between conditions, both matrices $B$ and $C$ were used. Specifically, matrix $C$ was used to specify the onset and offset of stimuli, and drive the activity  of the ``visual'' ROI, thus initiating trial-specific activity in the network. In addition, we used the modulatory matrix $B$ to specify modulatory effects of condition-specific trials (congruent, neutral, and incongruent) and the ROI connectivity parameters $\mat{A}$. Thus, the effective connectivity matrix $E_k$ specific to task condition $k$ can be expressed as the element-wise product of $\mat{A}$ and the modulatory effects of condition $k$ $\mat{B}_k$, namely:
 
 \begin{equation}
-\mat{E}_k = \mat{A} \odot \mat{B}_k
+\mat{E}_k = \mat{A} + \mat{A} \odot \mat{B}_k
 \label{dcm:trick}
 \end{equation}
 
 As it is common in DCM, all the parameters were identified using a Expectation-Maximization procedure over a probability distribution of parameter value. 
 
-\begin{figure}[ht]
-\centering
-  \includegraphics[width=\linewidth]{both_models.eps}
-  \caption{Lovett}
-\end{figure}%
-
-%\begin{figure}[ht]
-%\centering
-%  \includegraphics[width=\linewidth]{altmann_model.eps}
-%  \caption{Altmann}
-%\end{figure}%
-
  
 \section{Result}
 
-Figure~\ref{fig:conn} shows the connectivity analysis results between modules. Figure~\ref{fig:conn} (a) shows the functional connectivity between retrieval and imaginal is high as expected, while that between imaginal and goal is not as high. (b) and (c) show the results of DCM in both congruent and incongruent trials averaged across subjects through Bayesian parameter averaging \cite{Kasess2010} (see Appendix C), and (d) shows the difference in the effective connectivity in different tasks (incongruent - congruent). Circled parts in (d) confirm the effect we expect from ACT-R: in incongruent trials, there is a significant increase between imaginal and goal modules to account for the unmatching color and semantic condition. More importantly, their effect on the output (i.e., the manual module) also changes drastically. Compared to congruent trials, there is a significant decrease effect from goal to manual and a significant increase effect from imaginal to manual, suggesting that information about the final decision is delivered by imaginal rathar than goal in incongruent trials. Again, this supports ACT-R's assumption that little imaginal involvement is needed in congruent trials. 
+Figure~\ref{fig:conn} shows the connectivity analysis results between modules. Figure~\ref{fig:conn} (a) shows the functional connectivity between retrieval and imaginal is high as expected, while that between imaginal and goal is not as high. (b) and (c) show the results of DCM in both congruent and incongruent trials averaged across subjects through Bayesian parameter averaging \cite{Kasess2010} (see Appendix C), and (d) shows the difference in the effective connectivity in different tasks (incongruent - congruent). Circled parts in (d) confirm the effect we expect from ACT-R: in incongruent trials, there is a significant increase between imaginal and goal modules to account for the unmatching color and semantic condition. More importantly, their effect on the output (i.e., the manual module) also changes drastically. Compared to congruent trials, there is a significant decrease effect from goal to manual and a significant increase effect from imaginal to manual, suggesting that information about the final decision is delivered by imaginal rather than goal in incongruent trials. Again, this supports ACT-R's assumption that little imaginal involvement is needed in congruent trials. 
 
 \section{Discussion}
 
@@ -242,30 +229,29 @@ Always borrow~~~~   &   96 - 42 = 34 \\
 \end{center} 
 \end{table}
 
-
+%\begin{figure}[ht]
+%\centering
+  %\includegraphics[width=\linewidth]{9x9.eps}
+  %\caption{9x9.}
+%\end{figure}%
 
 \begin{figure}[ht]
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{.11\textwidth}
   \centering
   \includegraphics[width=\linewidth]{func_conn.png}
   \caption{}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{.11\textwidth}
   \centering
   \includegraphics[width=\linewidth]{Congruent_effect_conn.png}
   \caption{}
 \end{subfigure}
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{.11\textwidth}
   \centering
   \includegraphics[width=\linewidth]{Incongruent_effect_conn.png}
   \caption{}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{Incongruent_effect_conn.png}
-  \caption{}
-\end{subfigure}
 \caption{Brain region connectivity results: (a) Functional connectivity analysis shows strong brain signal activation between imaginal and retrieval, but not imaginal and goal; (b) Effective connectivity in congruent trials: similar strong effects between retrieval and imaginal are shown (data is zero-min) ; (c) Effective connectivity in incongruent trials: increasing connectivity between imaginal and goal are shown (data is zero-min); (d) Difference of effective connectivity in different tasks (incongruent - congruent): circled regions show brain connectivity dynamics in different tasks.}
 \label{fig:conn}
 \end{figure}
